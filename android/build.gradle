@@ -1,0 +1,37 @@
+// This is the top-level build.gradle (android/build.gradle)
+
+// This block is for the buildscript dependencies, like Gradle plugin versions
+buildscript {
+    repositories {
+        google()  // Google's Maven repository
+        mavenCentral()  // Maven central repository
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'  // Android Gradle plugin
+        classpath 'com.google.gms:google-services:4.3.15'  // Firebase services plugin
+    }
+}
+
+// All projects in the root project will have these repositories
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// For cleaner project structure
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+// Dependency evaluation for the app module
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+// Task to clean the project build
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
