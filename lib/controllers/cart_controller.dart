@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ecommerce/model/cart_item.dart';
 
 class CartController extends GetxController {
+  final box = GetStorage();
   var cartItems = <CartItem>[].obs;
 
   @override
@@ -12,26 +12,25 @@ class CartController extends GetxController {
     loadCartFromStorage();
   }
 
-  int get totalCartItems => cartItems.fold(0, (sum, item) => sum + item.quantity);
-
-  double get totalAmount => cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
+  int get totalCartItems =>
+      cartItems.fold(0, (sum, item) => sum + item.quantity);
+  double get totalAmount =>
+      cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
 
   void addToCart(CartItem newItem) {
-    var existingProduct = cartItems.firstWhereOrNull((item) => item.id == newItem.id);
-
+    var existingProduct =
+        cartItems.firstWhereOrNull((item) => item.id == newItem.id);
     if (existingProduct != null) {
       existingProduct.quantity++;
     } else {
       cartItems.add(newItem);
     }
-
-    saveCartToStorage(); 
+    saveCartToStorage();
     cartItems.refresh();
   }
 
   void removeFromCart(CartItem product) {
     var cartItem = cartItems.firstWhereOrNull((item) => item.id == product.id);
-
     if (cartItem != null) {
       if (cartItem.quantity > 1) {
         cartItem.quantity--;
@@ -46,22 +45,20 @@ class CartController extends GetxController {
   void clearCart() {
     cartItems.clear();
     saveCartToStorage();
+    cartItems.refresh();
   }
 
-  Future<void> saveCartToStorage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> cartJsonList =
-        cartItems.map((item) => jsonEncode(item.toJson())).toList();
-    await prefs.setStringList('cart', cartJsonList);
+  void saveCartToStorage() {
+    List<Map<String, dynamic>> cartJsonList =
+        cartItems.map((item) => item.toJson()).toList();
+    box.write('cart', cartJsonList);
   }
 
-  Future<void> loadCartFromStorage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? cartJsonList = prefs.getStringList('cart');
-
+  void loadCartFromStorage() {
+    List<dynamic>? cartJsonList = box.read('cart');
     if (cartJsonList != null) {
       cartItems.assignAll(
-          cartJsonList.map((item) => CartItem.fromJson(jsonDecode(item))).toList());
+          cartJsonList.map((item) => CartItem.fromJson(item)).toList());
     }
   }
 }

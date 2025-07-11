@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ecommerce/model/product.dart';
 import '../services/api_services.dart';
 
 class ProductController extends GetxController {
+  final box = GetStorage();
   var isLoading = true.obs;
   var products = <Product>[].obs;
 
@@ -16,17 +18,13 @@ class ProductController extends GetxController {
     try {
       isLoading(true);
       var productList = await ApiService.fetchProducts();
-
-      print(" Fetched Products Count: ${productList.length}");
-
       if (productList.isNotEmpty) {
         products.assignAll(productList);
-        print(" Products assigned successfully!");
       } else {
-        print(" No products found.");
+        products.clear();
       }
     } catch (e) {
-      print(" Error fetching products: $e");
+      products.clear();
     } finally {
       isLoading(false);
     }

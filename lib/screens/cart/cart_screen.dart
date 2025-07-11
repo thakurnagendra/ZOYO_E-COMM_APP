@@ -1,13 +1,13 @@
+import 'package:get/get.dart';
 import 'package:ecommerce/screens/cart/order-summary.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ecommerce/controllers/cart_controller.dart';
 import 'package:ecommerce/model/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   final CartController cartController = Get.put(CartController());
 
-   CartScreen({super.key});
+  CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +28,14 @@ class CartScreen extends StatelessWidget {
                   ),
                 );
               }
-
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: cartController.cartItems.length,
                 itemBuilder: (context, index) {
                   CartItem cartItem = cartController.cartItems[index];
-
                   return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -50,8 +49,10 @@ class CartScreen extends StatelessWidget {
                         errorBuilder: (context, error, stackTrace) =>
                             const Icon(Icons.broken_image, size: 50),
                       ),
-                      title: Text(cartItem.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text('NPR ${cartItem.price.toStringAsFixed(2)}'),
+                      title: Text(cartItem.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle:
+                          Text('NPR ${cartItem.price.toStringAsFixed(2)}'),
                       trailing: _buildQuantityControl(cartItem),
                     ),
                   );
@@ -59,11 +60,8 @@ class CartScreen extends StatelessWidget {
               );
             }),
           ),
-
-      
           Obx(() {
             double totalAmount = cartController.totalAmount;
-
             return Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -81,17 +79,22 @@ class CartScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Total Items:", style: TextStyle(fontSize: 16)),
-                      Text("${cartController.totalCartItems}", style: const TextStyle(fontSize: 16)),
+                      const Text("Total Items:",
+                          style: TextStyle(fontSize: 16)),
+                      Text("${cartController.totalCartItems}",
+                          style: const TextStyle(fontSize: 16)),
                     ],
                   ),
                   const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Total Price:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      const Text("Total Price:",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       Text("NPR ${totalAmount.toStringAsFixed(2)}",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -114,11 +117,11 @@ class CartScreen extends StatelessWidget {
           onPressed: () {
             if (cartItem.quantity > 1) {
               cartItem.quantity--;
-              cartController.cartItems.refresh();
             } else {
               cartController.cartItems.remove(cartItem);
             }
             cartController.saveCartToStorage();
+            cartController.cartItems.refresh();
           },
         ),
         Text(
@@ -129,8 +132,8 @@ class CartScreen extends StatelessWidget {
           icon: const Icon(Icons.add_circle, color: Colors.green),
           onPressed: () {
             cartItem.quantity++;
+            cartController.saveCartToStorage();
             cartController.cartItems.refresh();
-            cartController.saveCartToStorage(); 
           },
         ),
       ],

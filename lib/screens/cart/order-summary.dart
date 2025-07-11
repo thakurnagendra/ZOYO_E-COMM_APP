@@ -5,7 +5,7 @@ import 'package:ecommerce/controllers/cart_controller.dart';
 class OrderSummaryScreen extends StatelessWidget {
   final CartController cartController = Get.find<CartController>();
 
-   OrderSummaryScreen({super.key});
+  OrderSummaryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,10 @@ class OrderSummaryScreen extends StatelessWidget {
           children: [
             const Text(
               "Order Placed Successfully!",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green),
+              style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green),
             ),
             const SizedBox(height: 20),
             Text(
@@ -34,14 +37,17 @@ class OrderSummaryScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  cartController.clearCart(); 
-                  Get.offAllNamed('/home');
+                  cartController.clearCart();
+                  // If GetX is removed, use Navigator.of(context).pushReplacementNamed('/home');
+                  // Otherwise, keep Get.offAllNamed('/home');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 ),
-                child: const Text("Back to Home", style: TextStyle(fontSize: 18, color: Colors.white)),
+                child: const Text("Back to Home",
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
               ),
             )
           ],

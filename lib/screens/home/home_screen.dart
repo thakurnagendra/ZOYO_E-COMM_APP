@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   final CartController cartController = Get.put(CartController());
   final AuthController authController = Get.put(AuthController());
 
-   HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
- 
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.deepOrange,
@@ -63,7 +62,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
- 
   Widget _buildCartIcon() {
     return Stack(
       children: [
@@ -94,7 +92,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
- 
   Widget _buildProductGrid() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -114,7 +111,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildProductCard(Product product) {
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetailScreen(product: product)),
@@ -125,12 +121,13 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
               child: Image.network(
                 product.image,
-                width: double.infinity, 
+                width: double.infinity,
                 height: 120,
-                fit: BoxFit.cover, 
+                fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) =>
                     const Icon(Icons.broken_image, size: 80),
               ),
@@ -142,7 +139,8 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     product.title,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -162,7 +160,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
- 
   Widget _buildAddToCartButton(Product product) {
     return ElevatedButton(
       onPressed: () {
@@ -175,8 +172,7 @@ class HomeScreen extends StatelessWidget {
             image: product.image,
           ),
         );
-
-        Get.snackbar(" Product Added", "${product.title} added to cart",
+        Get.snackbar("Product Added", "${product.title} added to cart",
             snackPosition: SnackPosition.BOTTOM);
       },
       style: ElevatedButton.styleFrom(

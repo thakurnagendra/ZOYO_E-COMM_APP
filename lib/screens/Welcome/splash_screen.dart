@@ -1,67 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import '../auth/signin_screen.dart';
-import '../home/home_screen.dart'; 
+import '../home/home_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 5), () async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? savedEmail = prefs.getString('email');
-      
+      final box = GetStorage();
+      String? savedEmail = box.read('email');
       if (savedEmail != null) {
-        Get.offAll(() => HomeScreen()); 
+        Get.offAll(() => HomeScreen());
       } else {
         Get.offAll(() => SigninScreen());
       }
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepOrange,
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange, 
+        backgroundColor: Colors.deepOrange,
         elevation: 0,
         centerTitle: true,
         title: const Text(
-          "ZOYO", 
+          "ZOYO",
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
             color: Colors.white,
-            fontFamily: 'Cursive', 
+            fontFamily: 'Cursive',
           ),
         ),
       ),
-      body: Center(  
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            
             Lottie.asset('assets/images/Animation - 1739357294493.json'),
             const SizedBox(height: 20),
-            
-           
             const Text(
               "Welcome to Zoyo App",
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
-                color: Colors.white, 
-                fontFamily: 'Cursive', 
-                letterSpacing: 2.0, 
+                color: Colors.white,
+                fontFamily: 'Cursive',
+                letterSpacing: 2.0,
               ),
             ),
             const SizedBox(height: 20),
