@@ -14,8 +14,9 @@ class AuthController extends GetxController {
   final retypePasswordController = TextEditingController();
 
   Future<void> signIn() async {
-    if (emailController.text.isEmpty || passwordController.text.length < 6)
+    if (emailController.text.isEmpty || passwordController.text.length < 6) {
       return;
+    }
     isLoading(true);
     await box.write('email', emailController.text);
     isLoading(false);
@@ -53,7 +54,9 @@ class AuthController extends GetxController {
   Future<void> register() async {
     if (emailController.text.isEmpty ||
         passwordController.text.length < 6 ||
-        passwordController.text != retypePasswordController.text) return;
+        passwordController.text != retypePasswordController.text) {
+      return;
+    }
     isLoading(true);
     await box.write('email', emailController.text);
     isLoading(false);

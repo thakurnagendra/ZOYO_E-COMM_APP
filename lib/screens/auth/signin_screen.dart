@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/services.dart';
-import '../home/home_screen.dart';
-import 'package:get_storage/get_storage.dart';
 import '../../controllers/auth_controller.dart';
 import 'signup_screen.dart';
 
